@@ -21,6 +21,8 @@ En este primer commit se ha subido el **código original** del proyecto clima, s
 
 A partir de esta base se irán añadiendo nuevas ramas con mejoras en validaciones de formularios, gestión de eventos, manipulación del DOM, uso de almacenamiento en el navegador y mejoras de interfaz.
 
+> Estado actual: versión funcional con validaciones avanzadas de formulario y sistema de historial de búsquedas persistente mediante `localStorage`.
+
 ---
 
 ## 🧱 Tecnologías utilizadas (versión inicial)
@@ -100,13 +102,42 @@ Estos cambios mejoran la usabilidad del formulario, la claridad de los errores y
 
 ---
 
+### 🔹 Mejora 2: Historial de búsquedas con localStorage
+
+**Rama:** `feature/historial-localstorage`  
+
+En esta mejora se ha añadido un historial de búsquedas que aprovecha el almacenamiento local del navegador (`localStorage`) para recordar las últimas consultas realizadas:
+
+- **Nueva sección en la interfaz**  
+  - Se incluye un bloque “Historial de búsquedas” debajo del formulario.  
+  - Cada entrada del historial se muestra como una tarjeta con:
+    - Nombre de la ciudad y código de país (por ejemplo, `Madrid (ES)`).
+    - Fecha y hora en la que se realizó la consulta.
+
+- **Almacenamiento persistente con `localStorage`**  
+  - Después de cada búsqueda válida (ciudad existente devuelta por la API), se guarda un objeto con:
+    - `ciudad`
+    - `pais`
+    - `fecha` (en formato ISO)  
+  - El historial se serializa como JSON en la clave `clima-historial-busquedas`.  
+  - Al cargar la página, el historial se recupera de `localStorage` y se pinta automáticamente en el DOM.
+
+- **Lógica del historial y límite de elementos**  
+  - Se evita repetir la misma ciudad y país en el historial, manteniendo siempre la búsqueda más reciente en primera posición.  
+  - El historial se limita a un máximo de 5 entradas para no sobrecargar la interfaz.  
+  - Si no hay búsquedas guardadas, se muestra un mensaje informativo en lugar de una lista vacía.
+
+- **Interacción mediante eventos (DOM + UX)**  
+  - Cada elemento del historial es clicable: al hacer clic se rellenan automáticamente los campos de **ciudad** y **país** y se lanza una nueva consulta a la API.  
+  - Se han añadido manejadores de eventos (`click`) sobre los elementos `<li>` generados dinámicamente para gestionar estas recargas de búsqueda.  
+
+Esta mejora refuerza el uso de eventos, la manipulación del DOM y el almacenamiento en el navegador, además de mejorar la experiencia de usuario permitiendo repetir búsquedas de forma rápida y visual.
+
+---
+
 ### 📌 Próximas mejoras planificadas
 
 Las siguientes mejoras previstas sobre este código base son:
-
-1. **Historial de búsquedas y/o ciudades favoritas con almacenamiento en el navegador**  
-   - Guardar en `localStorage` las últimas ciudades consultadas o una lista de favoritas.  
-   - Mostrar ese historial como lista clicable para repetir consultas rápidamente.
 
 2. **Mejoras en la interfaz y textos dinámicos**  
    - Mensajes personalizados según la temperatura (frío, templado, calor).  
