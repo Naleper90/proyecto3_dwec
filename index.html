@@ -1,30 +1,43 @@
 <!doctype html>
 <html lang="en">
+  
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clima - JavaScript Moderno</title>
-
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/tailwind.min.css" rel="stylesheet" />
   </head>
+
   <body>
+
     <div class="container mx-auto">
+      <!-- Contenedor principal centrado horizontalmente -->
+
       <h1
         id="titulo"
         class="text-4xl mt-5 text-white font-bold uppercase text-center"
       >
         Busca el Clima
       </h1>
+
       <div class="max-w-lg mx-auto">
         <div class="p-6 mt-10">
           <div id="resultado">
-            <p class="text-center text-white mt-6">Elige tu ciudad y país...</p>
+            <!-- Contenedor donde se insertarán dinámicamente los resultados del clima -->
+            <p class="text-center text-white mt-6">
+              Elige tu ciudad y país...
+            </p>
           </div>
         </div>
 
+        <!-- FORMULARIO DE BÚSQUEDA DEL CLIMA -->
         <form id="formulario" class="mt-10" action="#" method="POST">
+          <!-- Formulario principal. El atributo action se queda en "#" porque se gestiona con JavaScript -->
+
           <div class="mt-5">
+            <!-- Grupo del campo de ciudad -->
+
             <input
               type="text"
               name="ciudad"
@@ -32,12 +45,20 @@
               placeholder="Escribe tu Ciudad"
               class="w-full p-2 rounded"
             />
+            <!-- CAMBIO NUEVO: contenedor específico para mostrar los errores del campo ciudad -->
+            <p id="error-ciudad" class="mt-1 text-sm text-red-200"></p>
+            <!-- Aquí se mostrarán los mensajes de validación (ciudad obligatoria, longitud, formato, etc.) -->
           </div>
+
           <div class="mt-5">
+            <!-- Grupo del campo de país -->
+
             <select
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="pais"
             >
+              <!-- Lista desplegable para seleccionar el país correspondiente a la ciudad -->
+
               <option disabled selected value="">-- Seleccione --</option>
               <option value="AR">Argentina</option>
               <option value="FR">Francia</option>
@@ -45,7 +66,12 @@
               <option value="ES">España</option>
               <option value="IE">Irlanda</option>
               <option value="PY">Paraguay</option>
+              <!-- Opciones de país disponibles para la consulta -->
             </select>
+
+            <!-- CAMBIO NUEVO: contenedor específico para mostrar los errores del campo país -->
+            <p id="error-pais" class="mt-1 text-sm text-red-200"></p>
+            <!-- Aquí se mostrarán los mensajes de validación si el usuario no selecciona un país -->
           </div>
 
           <input
@@ -56,19 +82,12 @@
         </form>
       </div>
     </div>
-    <script>
-      alert("hola");
-    </script>
 
-    <!-- <script src="js/app.js"></script> -->
-    <!-- <script src="js/app1.js"></script> -->
-    <!-- <script src="js/app2.js"></script> -->
-    <!-- <script src="js/app3.js"></script> -->
-    <!-- <script src="js/app4.js"></script> -->
-    <!-- <script src="js/app5.js"></script> -->
-    <!-- <script src="js/app6.js"></script> -->
-    <!-- <script src="js/app7.js"></script> -->
-    <!-- <script src="js/app8.js"></script> -->
     <script src="js/app9.js"></script>
+    <!-- Archivo JavaScript principal donde se gestiona:
+         - Captura de eventos del formulario
+         - Validaciones de los campos
+         - Llamada a la API de OpenWeatherMap
+         - Manipulación del DOM para mostrar resultados y errores -->
   </body>
 </html>
