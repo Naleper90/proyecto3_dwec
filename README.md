@@ -55,3 +55,41 @@ Este proyecto forma parte de la asignatura **Desarrollo Web en Entorno Cliente (
 - Validaciones de formularios.
 - Uso de almacenamiento en el navegador.
 - Mejora de la accesibilidad y etiquetas semánticas.
+
+---
+
+## 🛠️ Mejoras implementadas
+
+> Esta sección documenta las mejoras realizadas sobre el código original del proyecto clima.  
+> Cada mejora se implementará en una rama específica y se integrará posteriormente a `main`.
+
+### 🔹 Versión original (commit inicial)
+
+- Se ha subido el código base del proyecto clima utilizado en clase, sin modificaciones en la lógica ni en la interfaz.
+- La aplicación incluye:
+  - Formulario sencillo para introducir **ciudad** y seleccionar **país**.
+  - Consulta a la API de **OpenWeatherMap** usando `fetch`.
+  - Conversión de temperaturas desde Kelvin a grados **centígrados**.
+  - Representación de la información del clima en el DOM (ciudad, temperatura actual, máxima y mínima).
+  - Un **spinner de carga** que se muestra mientras se realiza la petición a la API.
+- Esta versión sirve como punto de partida para aplicar refactorización, mejoras de usabilidad y nuevas funcionalidades en DEWC.
+
+---
+
+### 📌 Próximas mejoras planificadas
+
+Las primeras mejoras que se implementarán sobre este código base serán:
+
+1. **Validaciones avanzadas del formulario**  
+   - Validación en tiempo real de la ciudad (obligatoria, longitud mínima, solo letras y espacios).  
+   - Validación del país (selección obligatoria).  
+   - Mensajes de error específicos debajo de cada campo y mensaje general en la parte superior.
+
+2. **Mejor gestión de eventos y UX en la búsqueda de clima**  
+   - Deshabilitar el botón de envío mientras se realiza la petición a la API.  
+   - Mejorar los mensajes de error cuando falle la conexión o la ciudad no exista.
+
+3. **Almacenamiento en el navegador (futuro)**  
+   - Guardar historial de búsquedas y/o ciudades favoritas usando `localStorage`.  
+   - Mostrar ese historial como lista clicable para repetir consultas rápidamente.
+
