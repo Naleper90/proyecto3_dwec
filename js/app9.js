@@ -12,6 +12,11 @@ const errorPais = document.querySelector("#error-pais");
 // CAMBIO NUEVO: referencia al botón de envío
 // La usamos para deshabilitarlo / habilitarlo mientras se consulta la API
 const botonSubmit = document.querySelector('input[type="submit"]');
+// Contenedor de la lista de historial
+const listaHistorial = document.querySelector("#historial");
+// Clave de localStorage para guardar el historial
+const HISTORIAL_KEY = "clima-historial-busquedas";
+
 
 
 // Cuando la página ha terminado de cargar, configuramos los listeners de eventos
@@ -29,9 +34,10 @@ window.addEventListener("load", () => {
   selectPais.addEventListener("change", () => {
     const mensaje = validarPais(selectPais.value);
     errorPais.textContent = mensaje;
-
     mostrarMensajeInicial();
   });
+
+  pintarHistorial();
 });
 
 
@@ -175,6 +181,8 @@ async function consultarAPI(ciudad, pais) {
 
     const datos = await respuesta.json();
 
+    agregarBusquedaAlHistorial(ciudad, pais);
+
     limpiarHTML();
     mostrarClima(datos);
   } catch (error) {
@@ -272,4 +280,101 @@ function mostrarMensajeInicial() {
   p.textContent = "Elige tu ciudad y país...";
   p.classList.add("text-center", "text-white", "mt-6");
   resultado.appendChild(p);
+}
+
+// Obtiene el historial desde localStorage y lo devuelve como array
+function obtenerHistorial() {
+  const historialJSON = localStorage.getItem(HISTORIAL_KEY);
+  if (!historialJSON) {
+    return [];
+  }
+  try {
+    return JSON.parse(historialJSON);
+  } catch (error) {
+    console.error("Error al parsear el historial de localStorage:", error);
+    return [];
+  }
+}
+
+// Guarda un array de historial en localStorage
+function guardarHistorial(historial) {
+  localStorage.setItem(HISTORIAL_KEY, JSON.stringify(historial));
+}
+
+// Añade una nueva búsqueda (ciudad + país) al historial evitando duplicados consecutivos
+function agregarBusquedaAlHistorial(ciudad, pais) {
+  const historial = obtenerHistorial();
+
+  const nuevoRegistro = {
+    ciudad,
+    pais,
+    fecha: new Date().toISOString(),
+  };
+
+  // Eliminar cualquier entrada previa con la misma ciudad y país
+  const historialSinRepetidos = historial.filter(
+    (item) => !(item.ciudad === ciudad && item.pais === pais),
+  );
+
+  // Añadimos la nueva búsqueda al principio y limitamos a 5
+  const nuevoHistorial = [nuevoRegistro, ...historialSinRepetidos].slice(0, 5);
+
+  guardarHistorial(nuevoHistorial);
+  pintarHistorial();
+}
+
+// Pinta en el DOM la lista de historial a partir de lo que hay en localStorage
+function pintarHistorial() {
+  // Limpiamos lista
+  listaHistorial.innerHTML = "";
+
+  const historial = obtenerHistorial();
+  console.log("Historial leído de localStorage:", historial);
+
+  if (historial.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "Todavía no hay búsquedas guardadas.";
+    li.classList.add("text-gray-100", "text-sm");
+    listaHistorial.appendChild(li);
+    return;
+  }
+
+  historial.forEach((item) => {
+  console.log("Pintando item:", item);
+    const li = document.createElement("li");
+    li.classList.add(
+      "bg-white",
+      "bg-opacity-10",
+      "text-gray",
+      "px-3",
+      "py-2",
+      "rounded",
+      "cursor-pointer",
+      "hover:bg-opacity-20",
+      "flex",
+      "justify-between",
+      "items-center",
+    );
+
+    const texto = document.createElement("span");
+    texto.textContent = `${item.ciudad} (${item.pais})`;
+
+    const fecha = document.createElement("span");
+    fecha.classList.add("text-xs", "text-gray-300");
+    fecha.textContent = new Date(item.fecha).toLocaleString();
+
+    li.appendChild(texto);
+    li.appendChild(fecha);
+
+    // Al hacer clic, rellenamos el formulario y lanzamos una nueva consulta
+    li.addEventListener("click", () => {
+      inputCiudad.value = item.ciudad;
+      selectPais.value = item.pais;
+      limpiarErroresFormulario();
+      mostrarMensajeInicial();
+      consultarAPI(item.ciudad, item.pais);
+    });
+
+    listaHistorial.appendChild(li);
+  });
 }
