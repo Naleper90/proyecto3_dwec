@@ -61,7 +61,7 @@ Este proyecto forma parte de la asignatura **Desarrollo Web en Entorno Cliente (
 ## 🛠️ Mejoras implementadas
 
 > Esta sección documenta las mejoras realizadas sobre el código original del proyecto clima.  
-> Cada mejora se implementará en una rama específica y se integrará posteriormente a `main`.
+> Cada mejora se implementa en una rama específica y se integra posteriormente a `main`.
 
 ### 🔹 Versión original (commit inicial)
 
@@ -76,20 +76,38 @@ Este proyecto forma parte de la asignatura **Desarrollo Web en Entorno Cliente (
 
 ---
 
+### 🔹 Mejora 1: Validaciones avanzadas y mejor UX en la búsqueda
+
+**Rama:** `feature/validaciones-formulario`  
+
+En esta primera mejora se ha trabajado sobre la calidad del formulario y la experiencia de usuario al buscar el clima:
+
+- **Validaciones de formulario en tiempo real**:
+  - Validación del campo **ciudad**: obligatorio, longitud mínima configurable y solo letras (incluyendo acentos) y espacios.
+  - Validación del campo **país**: obliga a seleccionar una opción distinta de la opción por defecto.
+  - Los mensajes de error se muestran justo debajo de cada campo (`error-ciudad` y `error-pais`), sin recurrir únicamente a mensajes genéricos.
+
+- **Gestión de errores más clara y visible**:
+  - Mensaje de error general en la parte superior cuando el formulario no es válido (por ejemplo, campos vacíos o formato incorrecto).
+  - Mensajes específicos cuando la API devuelve errores HTTP (como ciudad no encontrada o problemas del servicio).
+
+- **Mejora de experiencia de usuario con eventos y spinner**:
+  - El botón **“Obtener Clima”** se deshabilita y cambia su texto mientras se realiza la petición a la API, evitando envíos múltiples.
+  - Se utiliza `async/await` para simplificar la lógica de la llamada a la API y manejar mejor los errores.
+  - El spinner se muestra únicamente cuando se está realizando una consulta válida, reforzando la sensación de carga mientras se espera la respuesta.
+
+Estos cambios mejoran la usabilidad del formulario, la claridad de los errores y la gestión de eventos, alineándose con los criterios de validación, DOM y UX de la asignatura.
+
+---
+
 ### 📌 Próximas mejoras planificadas
 
-Las primeras mejoras que se implementarán sobre este código base serán:
+Las siguientes mejoras previstas sobre este código base son:
 
-1. **Validaciones avanzadas del formulario**  
-   - Validación en tiempo real de la ciudad (obligatoria, longitud mínima, solo letras y espacios).  
-   - Validación del país (selección obligatoria).  
-   - Mensajes de error específicos debajo de cada campo y mensaje general en la parte superior.
-
-2. **Mejor gestión de eventos y UX en la búsqueda de clima**  
-   - Deshabilitar el botón de envío mientras se realiza la petición a la API.  
-   - Mejorar los mensajes de error cuando falle la conexión o la ciudad no exista.
-
-3. **Almacenamiento en el navegador (futuro)**  
-   - Guardar historial de búsquedas y/o ciudades favoritas usando `localStorage`.  
+1. **Historial de búsquedas y/o ciudades favoritas con almacenamiento en el navegador**  
+   - Guardar en `localStorage` las últimas ciudades consultadas o una lista de favoritas.  
    - Mostrar ese historial como lista clicable para repetir consultas rápidamente.
 
+2. **Mejoras en la interfaz y textos dinámicos**  
+   - Mensajes personalizados según la temperatura (frío, templado, calor).  
+   - Revisión de etiquetas semánticas y estructura para mejorar accesibilidad y mantenimiento.
